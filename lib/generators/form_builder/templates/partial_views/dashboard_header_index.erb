@@ -1,0 +1,11 @@
+%section.section
+  .section-header
+    %h1= title
+    .section-header-button
+      = link_to 'Add New', link, class: 'btn btn-primary'
+    = render 'partials/dashboard/breadcrumb', current: "All #{controller_name.titleize}"
+  .section-body
+    %h2.section-title= controller_name.titleize
+    %p.section-lead
+      = description 
+    = yield

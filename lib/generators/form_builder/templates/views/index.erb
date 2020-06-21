@@ -1,0 +1,29 @@
+= render 'partials/dashboard/dashboard_header_index', title: '<%= plural_name.titleize %>', description: 'You can manage all <%= plural_name %>, such as editing, deleting and more.', link: new_dashboard_<%= singular_name %>_path do
+  .row.mt-4
+    .col-12
+      .card
+        .card-header
+          %h4 All <%= plural_name %>
+        .card-body
+          .clearfix.mb-3
+          .table-responsive
+            - if @<%= plural_name %>.present?
+              %table.table.table-striped
+                %tr
+                <% index_table_list_item.each do |title| %>
+                  %th <%= title.titleize %>
+                <% end %>
+                  %th Actions
+                - @<%= plural_name %>.each do |<%= singular_name %>|
+                  %tr
+                  <% index_table_list_item.each do |item| %>
+                    %td= <%= "#{singular_name}.#{item}" %>
+                  <% end %>
+                    %td
+                      .table-links
+                        = link_to 'View', ''
+                        .bullet
+                        = link_to 'Edit', edit_dashboard_<%= singular_name %>_path(<%= singular_name %>)
+                        .bullet
+                        = link_to 'Trash', dashboard_<%= singular_name %>_path(<%= singular_name %>), method: :delete, class: 'text-danger'
+

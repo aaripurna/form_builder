@@ -1,0 +1,5 @@
+.col-sm-12.col-md-7
+  .image-preview{style: "background-image: url('#{args[:src]}')", class: "#{'is-invalid' if args[:errors].present?}"}
+    %label{for: args[:id]} Choose File
+    %input.image-upload{type: :file, **args.except(:errors)}/
+  .invalid-feedback= args[:errors]&.join(', ')

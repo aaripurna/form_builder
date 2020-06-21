@@ -1,0 +1,15 @@
+= render 'partials/dashboard/dashboard_header_form', description: 'On this page you can create a new <%= singular_name %> and fill in all fields.', link: dashboard_<%= plural_name %>_path do
+  .row
+    .col-12
+      .card
+        .card-header
+          %h4 Write Your <%= singular_name.titleize %>
+        .card-body
+          = dashboard_form_for(<%= singular_name %>, url: url, html: { multipart: true }) do |f|
+<% form_input_field.each do |input| -%>
+            = f.form_block do
+              = f.label :<%= input[:label] %>
+              = f.<%= input[:input] %> :<%= input[:name] %>
+<% end %>
+            = f.form_block do
+              = f.submit

@@ -1,0 +1,60 @@
+!!!
+%html{:lang => "en"}
+  %head
+    = csrf_meta_tags
+    = csp_meta_tag
+    %meta{:charset => "UTF-8"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %title Form Builder
+    = stylesheet_pack_tag 'dashboard'
+  %body
+    %p
+    #app
+      .main-wrapper
+        .navbar-bg
+        %nav.navbar.navbar-expand-lg.main-navbar
+          %form.form-inline.mr-auto
+            %ul.navbar-nav.mr-3
+              %li
+                %a.nav-link.nav-link-lg{"data-toggle" => "sidebar", :href => "#"}
+                  %i.fas.fa-bars
+              %li
+                %a.nav-link.nav-link-lg.d-sm-none{"data-toggle" => "search", :href => "#"}
+                  %i.fas.fa-search
+            = render partial: 'partials/dashboard/search_element'
+          %ul.navbar-nav.navbar-right
+            %li.dropdown
+              %a.nav-link.dropdown-toggle.nav-link-lg.nav-link-user{"data-toggle" => "dropdown", :href => "#"}
+                = image_tag "#{current_user.avatar.attached? ? url_for(current_user.avatar) : 'icons/avatar.png'}", class: 'rounded-circle mr-1', alt: 'avatar'
+                .d-sm-none.d-lg-inline-block= "Hi, #{current_user.full_name}"
+              .dropdown-menu.dropdown-menu-right
+                .dropdown-title
+                %a.dropdown-item.has-icon{:href => "#"}
+                  %i.far.fa-user
+                  Profile
+                %a.dropdown-item.has-icon{:href => "#"}
+                  %i.fas.fa-bolt
+                  Activities
+                %a.dropdown-item.has-icon{:href => "#"}
+                  %i.fas.fa-cog
+                  Settings
+                .dropdown-divider
+                = link_to destroy_user_session_path, method: :delete, class: 'dropdown-item has-icon text-danger' do
+                  %i.fas.fa-sign-out-alt
+                  Logout
+        .main-sidebar
+          %aside#sidebar-wrapper
+            .sidebar-brand
+              = link_to '<%= Rails.application.class.module_parent_name.humanize %>', root_path, target: :_blank
+            .sidebar-brand.sidebar-brand-sm
+              %a{:href => "index.html"} SP
+            = render 'partials/dashboard/menu'
+        / Main Content
+        .main-content
+          = yield
+        %footer.main-footer
+          .footer-left
+            = "Copyright © #{Time.zone.now.strftime('%Y')}"
+    / General JS Scripts
+    = javascript_pack_tag 'dashboard'
+    / This theme is designed by Muhamad Nauval Azhar (https://nauval.in/)

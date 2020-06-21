@@ -1,0 +1,6 @@
+.section-header-breadcrumb
+  .breadcrumb-item.active
+    = link_to 'Dashboard', '/dashboard'
+  .breadcrumb-item
+    = link_to controller_name.titleize, "/dashboard/#{controller_name}"
+  .breadcrumb-item= current

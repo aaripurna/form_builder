@@ -1,0 +1,12 @@
+.col-sm-12.col-md-7.textarray
+  - if args[:value].present?
+    - args[:value].each_with_index do |value, index|
+      .textarray-container 
+        %input.form-control{value: value, **args.except(:value, (:id if index != 0), :multiple)}
+        - if index != 0
+          %i.fas.fa-trash.delete-button
+  - else
+    .textarray-container
+      %input.form-control{**args.except(:value)}
+  %button.btn.btn-primary.add-new-line{type: :button}
+    %i.fas.fa-plus

@@ -1,0 +1,12 @@
+%section.section
+  .section-header
+    .section-header-back
+      = link_to link, class: 'btn btn-icon' do
+        %i.fas.fa-arrow-left
+    %h1 Create New Post
+    = render 'partials/dashboard/breadcrumb', current: "Create #{action_name.titleize} #{controller_name.titleize}"
+  .section-body
+    %h2.section-title= "Create New #{controller_name.titleize}"
+    %p.section-lead
+      = description
+    = yield

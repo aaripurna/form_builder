@@ -1,0 +1,3 @@
+.col-sm-12.col-md-7
+  %input.form-control{type: :text, class: "#{'is-invalid' if args[:errors].present? }", **args.except(:errors)}/
+  .invalid-feedback= args[:errors]&.join(', ')

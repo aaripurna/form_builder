@@ -1,0 +1,75 @@
+string:
+  field: string
+  form: text
+
+slug:
+  field: string
+  form: slug
+
+textarea:
+  field: text
+  form: textarea
+
+textarray:
+  field: string
+  form: textarray
+  multiple: true
+
+image:
+  field: null
+  form: image
+  type: file
+
+galleries:
+  field: null
+  form: galleries
+  type: file
+  multiple: true
+
+select:
+  field: integer
+  form: select
+
+references:
+  field: references
+  form: select
+
+select2:
+  form: select2
+
+blog:
+  field: text
+  form: blog_editor
+
+texteditor:
+  field: text
+  form: texteditor
+
+currency:
+  field: string
+  form: currency
+
+text:
+  field: text
+  form: textarea
+
+date:
+  field: datetime
+  form: date
+
+date_range:
+  field: datetime
+  form: date_range
+
+single_boolean:
+  field: boolean
+  form: single_boolean
+
+integer:
+  field: integer
+  form: text
+  type: number
+
+file:
+  field: null
+  form: file

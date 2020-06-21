@@ -1,0 +1,84 @@
+module Dashboard
+  class <%= plural_name.camelize %>Controller < DashboardController
+    before_action :set_<%= singular_name %>, except: [:create, :index, :new]
+<% if attached_multiple_files.present? -%>
+    attached_files :<%= singular_name %>, [<%= attached_multiple_files.map { |file| ":#{file}" }.join(', ') %>]
+<% end %>
+
+    def index
+      @<%= plural_name %> = <%= singular_name.camelize %>.all
+    end
+
+    def new
+      @<%= singular_name %> = <%= singular_name.camelize %>.new
+    end
+
+    def edit
+    end
+
+    def show
+      redirect_to action: :edit
+    end
+
+    def create
+      @<%= singular_name %> = <%= singular_name.camelize %>.new(<%= singular_name %>_params)
+      respond_to do |format|
+        if @<%= singular_name %>.save
+      <% attached_multiple_files.each do |file| -%>
+          @<%= singular_name %>.<%= file %>.attach(<%= "#{singular_name}_#{file}" %>) if <%= "#{singular_name}_#{file}" %>.present?
+      <% end %>
+          format.html { redirect_to action: :index, notice: "<%= singular_name %> updated successfully!" }
+          format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :created }
+        else
+          format.html { redirect_to action: :edit, notice: "failed to update <%= singular_name %>" }
+          format.json { render json: @<%= singular_name %>.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    def update
+      respond_to do |format|
+        if @<%= singular_name %>.update(<%= singular_name %>_params)
+        <% attached_multiple_files.each do |file| -%>
+            @<%= singular_name %>.<%= file %>.attach(<%= "#{singular_name}_#{file}" %>) if <%= "#{singular_name}_#{file}" %>.present?
+        <% end %>
+          format.html { redirect_to action: :index, notice: "<%= singular_name %> updated successfully!" }
+          format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :ok }
+        else
+          format.html { redirect_to action: :edit, notice: "failed to update <%= singular_name %>" }
+          format.json { render json: @<%= singular_name %>.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    def destroy
+      respond_to do |format|
+      <% attached_multiple_files.each do |file| -%>
+          @<%= singular_name %>.<%= file %>.purge_later if @<%= singular_name %>.<%= file %>.attached?
+      <% end %>
+      <% attached_singular_files.each do |file| -%>
+          @<%= singular_name %>.<%= file %>.purge_later if @<%= singular_name %>.<%= file %>.attached?
+      <% end %>
+        if @<%= singular_name %>.destroy
+          format.html { redirect_to action: :index, notice: "<%= singular_name %> deleted successfully!" }
+          format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :ok }
+        else
+          format.html { redirect_to action: :index, notice: "failed to delete <%= singular_name %>" }
+          format.json { render json: @<%= singular_name %>.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    private
+
+    def <%= singular_name %>_params
+      params.require(:<%= singular_name %>).permit(<%= extract_params_from_fields.join(', ') %>)
+    end
+
+    def set_<%= singular_name %>
+      @<%= singular_name %> = <%= singular_name.camelize %>.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to action: :index
+    end
+  end
+end

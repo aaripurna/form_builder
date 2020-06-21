@@ -1,0 +1,10 @@
+class Create<%= singular_name.camelize %> < ActiveRecord::Migration[5.2]
+  def change
+    create_table :<%= plural_name %> do |t|
+    <% migration_attributes.each do |att| %>
+      t.<%= att[:field] %> :<%= att[:name] %><%= ", #{att[:options].join(', ')} " if att[:options].present? %>
+    <% end %>
+      t.timestamps null: false
+    end
+  end
+end

@@ -1,0 +1,7 @@
+.col-sm-12.col-md-7
+  .input-group
+    .input-group-prepend
+      .input-group-text
+        = args[:currency]
+    %input.form-control.currency{**args.except(:currency, :name)}/
+    = hidden_field_tag args[:name], args[:value]

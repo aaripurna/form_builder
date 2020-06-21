@@ -1,0 +1,5 @@
+.col-sm-12.col-md-7
+  %select.form-control.select2{class: "#{'is-invalid' if args[:errors]}", **args.except(:errors)}
+    - options.each do |label, value|
+      %option{value: value, selected: (selected == value)}= label
+  .invalid-feedback= args[:errors]&.join(', ')

@@ -1,0 +1,11 @@
+class <%= singular_name.camelize %> < ApplicationRecord
+<% attached_multiple_files.each do |file| -%>
+    has_many_attached :<%= file %>
+<% end %>
+<% attached_singular_files.each do |file| -%>
+    has_one_attached :<%= file %>
+<% end %>
+<% attached_singular_files.each do |file| -%>
+    belongs_to :<%= file %>
+<% end %>
+end
