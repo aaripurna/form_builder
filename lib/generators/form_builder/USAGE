@@ -1,0 +1,50 @@
+Description:
+    This generator is used to generate some CMS basic functionality in Asteroit style
+
+
+HOW TO USE:
+
+  rails g ds [singular_name] [field_name]:[field_type] <<--scope>> [some other option you can pass here]
+
+  FIELD TYPE OPTIONS
+    - string
+    - slug
+    - textarea
+    - textarray
+    - image
+    - galleries
+    - select
+    - references
+    - select2
+    - blog
+    - texteditor
+    - currency
+    - text
+    - date
+    - date_range
+    - single_boolean
+    - integer
+    - file
+
+  scope are optional
+
+  SCOPE OPTION AVAILABE
+    - single
+    - client-api
+    - api
+    - no-view
+
+  after you run the generator it will create some files for you
+
+  if without scope
+
+    app/controllers/dashboard/[plural name]_controller.rb
+    app/model/[singular name].rb
+    app/views/dashboard/[plural name]/_form.html.haml
+    app/views/dashboard/[plural name]/index.html.haml
+    app/views/dashboard/[plural name]/edit.html.haml
+    app/views/dashboard/[plural name]/new.html.haml
+    app/presenter/[singular name]_presenter.rb
+    db/migrate/[timestamps]_create_[plural name].rb
+    append 1 line to
+    config/routes.rb
