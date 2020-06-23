@@ -1,0 +1,29 @@
+= render 'partials/dashboard/dashboard_header_index', title: 'Blogs', description: 'You can manage all blogs, such as editing, deleting and more.', link: new_dashboard_blog_path do
+  .row.mt-4
+    .col-12
+      .card
+        .card-header
+          %h4 All blogs
+        .card-body
+          .clearfix.mb-3
+          .table-responsive
+            - if @blogs.present?
+              %table.table.table-striped
+                %tr
+                  %th Title
+                  %th Slug
+                  %th Body
+                  %th Actions
+                - @blogs.each do |blog|
+                  %tr
+                    %td= blog.title
+                    %td= blog.slug
+                    %td= blog.body
+                    %td
+                      .table-links
+                        = link_to 'View', ''
+                        .bullet
+                        = link_to 'Edit', edit_dashboard_blog_path(blog)
+                        .bullet
+                        = link_to 'Trash', dashboard_blog_path(blog), method: :delete, class: 'text-danger'
+

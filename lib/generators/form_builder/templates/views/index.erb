@@ -10,15 +10,15 @@
             - if @<%= plural_name %>.present?
               %table.table.table-striped
                 %tr
-                <% index_table_list_item.each do |title| %>
+<% index_table_list_item.each do |title| -%>
                   %th <%= title.titleize %>
-                <% end %>
+<% end -%>
                   %th Actions
                 - @<%= plural_name %>.each do |<%= singular_name %>|
                   %tr
-                  <% index_table_list_item.each do |item| %>
+<% index_table_list_item.each do |item| -%>
                     %td= <%= "#{singular_name}.#{item}" %>
-                  <% end %>
+<% end -%>
                     %td
                       .table-links
                         = link_to 'View', ''

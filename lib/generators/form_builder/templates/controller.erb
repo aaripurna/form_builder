@@ -3,7 +3,7 @@ module Dashboard
     before_action :set_<%= singular_name %>, except: [:create, :index, :new]
 <% if attached_multiple_files.present? -%>
     attached_files :<%= singular_name %>, [<%= attached_multiple_files.map { |file| ":#{file}" }.join(', ') %>]
-<% end %>
+<% end -%>
 
     def index
       @<%= plural_name %> = <%= singular_name.camelize %>.all
@@ -24,9 +24,9 @@ module Dashboard
       @<%= singular_name %> = <%= singular_name.camelize %>.new(<%= singular_name %>_params)
       respond_to do |format|
         if @<%= singular_name %>.save
-      <% attached_multiple_files.each do |file| -%>
+<% attached_multiple_files.each do |file| -%>
           @<%= singular_name %>.<%= file %>.attach(<%= "#{singular_name}_#{file}" %>) if <%= "#{singular_name}_#{file}" %>.present?
-      <% end %>
+<% end -%>
           format.html { redirect_to action: :index, notice: "<%= singular_name %> updated successfully!" }
           format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :created }
         else
@@ -39,9 +39,9 @@ module Dashboard
     def update
       respond_to do |format|
         if @<%= singular_name %>.update(<%= singular_name %>_params)
-        <% attached_multiple_files.each do |file| -%>
-            @<%= singular_name %>.<%= file %>.attach(<%= "#{singular_name}_#{file}" %>) if <%= "#{singular_name}_#{file}" %>.present?
-        <% end %>
+<% attached_multiple_files.each do |file| -%>
+          @<%= singular_name %>.<%= file %>.attach(<%= "#{singular_name}_#{file}" %>) if <%= "#{singular_name}_#{file}" %>.present?
+<% end -%>
           format.html { redirect_to action: :index, notice: "<%= singular_name %> updated successfully!" }
           format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :ok }
         else
@@ -53,12 +53,12 @@ module Dashboard
 
     def destroy
       respond_to do |format|
-      <% attached_multiple_files.each do |file| -%>
+<% attached_multiple_files.each do |file| -%>
           @<%= singular_name %>.<%= file %>.purge_later if @<%= singular_name %>.<%= file %>.attached?
-      <% end %>
-      <% attached_singular_files.each do |file| -%>
+<% end -%>
+<% attached_singular_files.each do |file| -%>
           @<%= singular_name %>.<%= file %>.purge_later if @<%= singular_name %>.<%= file %>.attached?
-      <% end %>
+<% end -%>
         if @<%= singular_name %>.destroy
           format.html { redirect_to action: :index, notice: "<%= singular_name %> deleted successfully!" }
           format.json { render json: { location: dashboard_<%= plural_name %>_url }, status: :ok }

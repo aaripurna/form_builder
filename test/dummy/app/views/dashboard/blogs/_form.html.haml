@@ -1,0 +1,19 @@
+= render 'partials/dashboard/dashboard_header_form', description: 'On this page you can create a new blog and fill in all fields.', link: dashboard_blogs_path do
+  .row
+    .col-12
+      .card
+        .card-header
+          %h4 Write Your Blog
+        .card-body
+          = dashboard_form_for(blog, url: url, html: { multipart: true }) do |f|
+            = f.form_block do
+              = f.label :title
+              = f.textarea :title
+            = f.form_block do
+              = f.label :slug
+              = f.slug :slug
+            = f.form_block do
+              = f.label :body
+              = f.texteditor :body
+            = f.form_block do
+              = f.submit
