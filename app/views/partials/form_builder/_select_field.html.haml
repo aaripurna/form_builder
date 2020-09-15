@@ -2,4 +2,4 @@
   %select.form-control.select2{class: "#{'is-invalid' if args[:errors]}", **args.except(:errors)}
     - options.each do |label, value|
       %option{value: value, selected: (selected == value)}= label
-  .invalid-feedback= args[:errors]&.join(', ')
+  .invalid-feedback{id: "invalid-feedback-#{args[:id]}"}= args[:errors]&.join(', ')

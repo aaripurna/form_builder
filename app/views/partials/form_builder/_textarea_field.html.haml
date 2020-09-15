@@ -1,2 +1,3 @@
 .col-sm-12.col-md-7
   %textarea.textarea.form-control{**args.except(:value)}= args[:value]
+  .invalid-feedback{id: "invalid-feedback-#{args[:id]}"}= args[:errors]&.join(', ')

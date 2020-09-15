@@ -3,5 +3,6 @@
     .input-group-prepend
       .input-group-text
         = args[:currency]
-    %input.form-control.currency{**args.except(:currency, :name)}/
+    %input.form-control.currency{value: args[:formatted], **args.except(:currency, :name, :value)}/
     = hidden_field_tag args[:name], args[:value]
+    .invalid-feedback{id: "invalid-feedback-#{args[:id]}"}= args[:errors]&.join(', ')

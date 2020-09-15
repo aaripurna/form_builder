@@ -34,7 +34,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
   def label(attribute, args={}, &block)
     args[:for] ||= set_name(attribute, args).parameterize
     @template.render "partials/form_builder/form_label",
-      attribute: attribute.to_s.titleize, args: args do
+      attribute: args[:text] || attribute.to_s.titleize, args: args do
       @template.capture(&block) if block_given?
     end
   end
@@ -63,7 +63,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
     args[:name] = set_name(attribute, args)
     args[:id] = args[:name].parameterize
     args[:'data-params'] = "#{@object_name}[#{attribute.to_s.singularize}_ids][]"
-    args[:galleries] = @object.send(attribute).attachments.map {|g| g.blob}
+    args[:galleries] = @object.send(attribute).attachments.map {|g| g.blob.id}&.join(',')
     @template.render "partials/form_builder/multiple_upload", args: args
   end
 
@@ -110,6 +110,14 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
     @template.render "partials/form_builder/multi_select_field", args: args, options: options
   end
 
+  def select2_ajax(attribute, args={})
+    args[:name] ||= set_name("#{attribute.to_s.singularize}_ids", multiple: true)
+    args[:id] ||= args[:name].parameterize
+    args[:multiple] ||= true
+    args[:errors] ||= get_errors(attribute)
+    @template.render "partials/form_builder/select2_ajax_field", args: args
+  end
+
   def select(attribute, options, args={})
     args[:name] = set_name(attribute, args)
     args[:id] = args[:name].parameterize
@@ -143,8 +151,24 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
     args[:name] = set_name(attribute, args)
     args[:currency] ||= "Rp"
     args[:value] ||= saved_value(attribute)
+    args[:formatted] ||= args[:value]
     args[:id] ||= args[:name].parameterize
     @template.render "partials/form_builder/currency_field", args: args
+  end
+
+  def switch_button(attribute, args = {})
+    args[:name] ||= set_name(attribute, args)
+    args[:value] ||= saved_value(attribute)
+    args[:id] ||= args[:name].parameterize
+    @template.render "partials/form_builder/switch_button", args: args
+  end
+
+  def number(attribute, args = {})
+    args[:name] = set_name(attribute, args)
+    args[:value] ||= saved_value(attribute)
+    args[:id] ||= args[:name].parameterize
+    args[:errors] ||= get_errors(attribute)
+    @template.render "partials/form_builder/number_field", args: args
   end
 
   def submit
@@ -181,7 +205,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
   end
 
   def get_errors(attribute)
-    return if @object.errors.blank?
+    return if @object&.errors.blank?
     @object.errors[attribute.to_sym]
   end
 end

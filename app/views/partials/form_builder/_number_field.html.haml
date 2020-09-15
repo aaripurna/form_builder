@@ -1,0 +1,4 @@
+.col-sm-12.col-md-7.number-field
+  %input.form-control{type: :text, class: "#{'is-invalid' if args[:errors].present? }", **args.except(:errors, :name)}/
+  = hidden_field_tag args[:name], args[:value]
+  .invalid-feedback{id: "invalid-feedback-#{args[:id]}"}= args[:errors]&.join(', ')

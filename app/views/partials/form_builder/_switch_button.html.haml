@@ -1,0 +1,6 @@
+.col-sm-12.col-md-7.switch-button
+  %label.custom-switch.mt-2{id: "custom-switch-#{args[:id]}"}
+    %input.custom-switch-input{type: :checkbox, checked: args[:value], **args.except(:name)}/
+    = hidden_field_tag args[:name], args[:value]
+    %span.custom-switch-indicator
+    %span.custom-switch-description= args[:description]
