@@ -8,6 +8,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
     args[:src] ||= @template.url_for(saved_value(attribute).variant(resize: "200x200")) if saved_value(attribute).attached?
     args[:id] ||= args[:name].parameterize
     args[:errors] ||= get_errors(attribute)
+    args[:signed_id] ||= saved_value(attribute).signed_id if saved_value(attribute).attached?
     @template.render "partials/form_builder/image_field", args: args
   end
 
