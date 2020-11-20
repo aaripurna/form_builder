@@ -1,6 +1,6 @@
 .col-sm-12.col-md-7.image-field{class: (args[:signed_id].present? ? 'attached' : '' )}
   .image-preview{style: "background-image: url('#{args[:src]}')", class: "#{'is-invalid' if args[:errors].present?}"}
-    %label.add-file{for: args[:id]} Choose File
+    %label.add-file Choose File
     %label.delete-button Remove File
     %input.image-upload{type: :file, 'data-name': args[:name], **args.except(:errors, :name)}/
     - if args[:signed_id]

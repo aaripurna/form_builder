@@ -5,7 +5,9 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
   def image(attribute, args={})
     args[:name] = set_name(attribute, args)
     args[:attribute] = attribute
-    args[:src] ||= @template.url_for(saved_value(attribute).variant(resize: "200x200")) if saved_value(attribute).attached?
+    args[:accept] = "image/png, image/jpg, image/jpeg, image/webp"
+    args[:size] ||= "200x200"
+    args[:src] ||= @template.url_for(saved_value(attribute).variant(resize: args[:size])) if saved_value(attribute).attached?
     args[:id] ||= args[:name].parameterize
     args[:errors] ||= get_errors(attribute)
     args[:signed_id] ||= saved_value(attribute).signed_id if saved_value(attribute).attached?
@@ -104,9 +106,9 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
   end
 
   def select2(attribute, options, args={})
-    args[:name] = set_name("#{attribute.to_s.singularize}_ids", multiple: true)
+    args[:name] ||= set_name("#{attribute.to_s.singularize}_ids", multiple: true)
     args[:id] ||= args[:name].parameterize
-    args[:multiple] ||= true
+    args[:multiple] = true if args[:multiple].nil? 
     args[:errors] ||= get_errors(attribute)
     @template.render "partials/form_builder/multi_select_field", args: args, options: options
   end
@@ -114,7 +116,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
   def select2_ajax(attribute, args={})
     args[:name] ||= set_name("#{attribute.to_s.singularize}_ids", multiple: true)
     args[:id] ||= args[:name].parameterize
-    args[:multiple] ||= true
+    args[:multiple] = true if args[:multiple].nil?
     args[:errors] ||= get_errors(attribute)
     @template.render "partials/form_builder/select2_ajax_field", args: args
   end
@@ -159,7 +161,7 @@ class FormBuilder::Builder < ::ActionView::Helpers::FormBuilder
 
   def switch_button(attribute, args = {})
     args[:name] ||= set_name(attribute, args)
-    args[:value] ||= saved_value(attribute)
+    args[:value] = saved_value(attribute) if args[:value].nil?
     args[:id] ||= args[:name].parameterize
     @template.render "partials/form_builder/switch_button", args: args
   end
